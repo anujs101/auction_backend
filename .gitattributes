@@ -21,3 +21,14 @@ postman/* linguist-documentation
 
 # Exclude generated Prisma files from stats
 prisma/migrations/* linguist-generated
+
+# Exclude Rust build artifacts but keep essential Solana files
+target/debug/* linguist-generated
+target/release/* linguist-generated
+target/sbpf-solana-solana/* linguist-generated
+target/.rustc_info.json linguist-generated
+target/CACHEDIR.TAG linguist-generated
+# Keep these essential files for Solana deployment
+# target/deploy/* - keep tracked
+# target/idl/* - keep tracked  
+# target/types/* - keep tracked
