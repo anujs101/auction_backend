@@ -1,0 +1,23 @@
+# Exclude files from GitHub language statistics
+node_modules/* linguist-vendored
+dist/* linguist-generated
+logs/* linguist-generated
+coverage/* linguist-generated
+*.log linguist-generated
+
+# Override language detection for specific files
+*.sh linguist-language=Shell
+deploy.sh linguist-language=Shell
+test-*.sh linguist-language=Shell
+
+# Mark documentation files
+*.md linguist-documentation
+docs/* linguist-documentation
+postman/* linguist-documentation
+
+# Ensure TypeScript is properly detected
+*.ts linguist-language=TypeScript
+*.js linguist-language=JavaScript
+
+# Exclude generated Prisma files from stats
+prisma/migrations/* linguist-generated
