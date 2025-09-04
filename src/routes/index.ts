@@ -35,6 +35,7 @@ router.use('/timeslots', timeslotRoutes);
 router.use('/bids', bidRoutes);
 router.use('/supplies', supplyRoutes);
 router.use('/users', userRoutes);
+router.use('/my', userRoutes); // Add /my prefix for user-specific endpoints
 router.use('/websocket', websocketRoutes);
 
 export default router;

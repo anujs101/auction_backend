@@ -67,7 +67,9 @@ export class BlockchainService {
       
       // Skip discriminator (8 bytes) and parse basic fields
       // This is a simplified parser - in production, use proper Anchor deserialization
-      if (data.length < 8) return null;
+      if (data.length < 8) {
+        throw new Error('Account data too short - missing discriminator');
+      }
       
       const dataView = new DataView(data.buffer, data.byteOffset + 8);
       
@@ -90,7 +92,7 @@ export class BlockchainService {
       };
     } catch (error) {
       logger.warn('Failed to parse timeslot account data:', error);
-      return null;
+      throw new Error(`Failed to parse timeslot account: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   }
 
@@ -153,7 +155,7 @@ export class BlockchainService {
       
       if (!accountInfo) {
         logger.warn('Global state account not found on blockchain');
-        return null;
+        throw new Error('Global state account not found on blockchain');
       }
 
       // Parse the actual global state data from blockchain
@@ -161,7 +163,7 @@ export class BlockchainService {
       
       if (data.length < 8) {
         logger.warn('Global state account data too short');
-        return null;
+        throw new Error('Global state account data too short');
       }
 
       try {
@@ -210,21 +212,17 @@ export class BlockchainService {
       
       if (!accountInfo) {
         logger.debug(`Timeslot account not found for epoch ${epoch}`);
-        return null;
+        return null; // This is acceptable - timeslot may not exist yet
       }
 
       // Verify account has correct discriminator
       if (!this.hasDiscriminator(accountInfo.data, BlockchainService.DISCRIMINATORS.TIMESLOT)) {
         logger.warn(`Invalid timeslot account discriminator for epoch ${epoch}`);
-        return null;
+        throw new Error(`Invalid timeslot account discriminator for epoch ${epoch}`);
       }
 
-      // Parse account data
+      // Parse account data - this will throw if parsing fails
       const parsedData = this.parseTimeslotAccount(accountInfo);
-      if (!parsedData) {
-        logger.warn(`Failed to parse timeslot account data for epoch ${epoch}`);
-        return null;
-      }
 
       return {
         publicKey: timeslotPDA.toString(),
@@ -657,6 +655,33 @@ export class BlockchainService {
       logger.error('Failed to get epoch info:', error);
       throw new Error(`Failed to get blockchain health: ${(error as Error).message}`);
     }
+  }
+
+  /**
+   * Get program ID
+   */
+  getProgramId(): PublicKey {
+    return this.programId;
+  }
+
+  /**
+   * Get connection instance
+   */
+  getConnection(): Connection {
+    return this.connection;
+  }
+
+  /**
+   * Get bid registry PDA
+   */
+  getBidRegistryPDA(timeslotEpoch: number): [PublicKey, number] {
+    return PublicKey.findProgramAddressSync(
+      [
+        Buffer.from('bid_registry'),
+        Buffer.from(timeslotEpoch.toString())
+      ],
+      this.programId
+    );
   }
 }
 

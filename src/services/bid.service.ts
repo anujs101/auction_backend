@@ -379,19 +379,14 @@ export class BidService {
   private async validateWalletBalance(walletAddress: string, requiredAmount: number): Promise<boolean> {
     try {
       // Production implementation: Check actual Solana wallet balance
-      const balance = await blockchainService.getAccountBalance(walletAddress);
-      if (!(balance as any).success) {
-        logger.warn('Failed to retrieve wallet balance', { walletAddress });
-        return false;
-      }
-      
-      const walletBalance = (balance as any).data.balance || 0;
-      const hasBalance = walletBalance >= requiredAmount;
+      const balanceInSOL = await blockchainService.getAccountBalance(walletAddress);
+      const requiredSOL = requiredAmount / 1e9; // Convert lamports to SOL
+      const hasBalance = balanceInSOL >= requiredSOL;
       
       logger.info('Wallet balance validation', {
-        walletAddress,
-        requiredAmount,
-        walletBalance,
+        walletAddress: walletAddress.substring(0, 8) + '...',
+        requiredSOL,
+        walletBalanceSOL: balanceInSOL,
         hasBalance
       });
       

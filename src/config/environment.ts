@@ -25,6 +25,7 @@ const envSchema = z.object({
   SOLANA_RPC_URL: z.string().url(),
   SOLANA_PROGRAM_ID: z.string(),
   SOLANA_COMMITMENT: z.enum(['processed', 'confirmed', 'finalized']).default('confirmed'),
+  PRIVATE_KEY: z.string().optional(),
   
   // Server
   PORT: z.string().transform(Number).pipe(z.number().int().positive()).default('3000'),
@@ -54,6 +55,7 @@ const envSchema = z.object({
 const parseResult = envSchema.safeParse(process.env);
 
 if (!parseResult.success) {
+  // Use console.error here as logger may not be initialized yet during environment setup
   console.error('❌ Invalid environment variables:', parseResult.error.format());
   process.exit(1);
 }

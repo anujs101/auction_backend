@@ -76,10 +76,14 @@ export class ClearingPriceService {
       const supplyCurve = this.buildSupplyCurve(sortedSupplies);
 
       // 5. Find intersection point (clearing price and quantity)
-      const intersection = this.findIntersection(demandCurve, supplyCurve);
-      
-      if (!intersection) {
-        logger.warn('No market intersection found', { timeslotId });
+      let intersection;
+      try {
+        intersection = this.findIntersection(demandCurve, supplyCurve);
+      } catch (error) {
+        logger.warn('No market intersection found', { 
+          timeslotId, 
+          error: error instanceof Error ? error.message : 'Unknown error' 
+        });
         return {
           clearingPrice: 0,
           totalVolume: 0,
@@ -216,7 +220,7 @@ export class ClearingPriceService {
   private findIntersection(
     demandCurve: Array<{ price: number; cumulativeQuantity: number }>,
     supplyCurve: Array<{ price: number; cumulativeQuantity: number }>
-  ): { price: number; quantity: number } | null {
+  ): { price: number; quantity: number } {
     
     for (let i = 0; i < demandCurve.length; i++) {
       const demandPoint = demandCurve[i];
@@ -233,7 +237,8 @@ export class ClearingPriceService {
       }
     }
 
-    return null;
+    // No intersection found - market cannot clear
+    throw new Error('No market intersection found - demand and supply curves do not intersect');
   }
 
   /**

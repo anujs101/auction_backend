@@ -58,3 +58,9 @@ export class WalletError extends AppError {
     super(message, statusCode);
   }
 }
+
+export class UnauthorizedError extends AppError {
+  constructor(message: string = 'Unauthorized access') {
+    super(message, 401);
+  }
+}

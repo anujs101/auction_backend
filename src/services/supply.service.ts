@@ -88,7 +88,7 @@ export class SupplyService {
           quantity: data.quantity,
           status: 'COMMITTED',
           txSignature,
-          escrowAccount: `escrow_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+          escrowAccount: null, // Will be set when blockchain transaction is confirmed
           createdAt: new Date(),
           updatedAt: new Date()
         },
