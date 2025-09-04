@@ -1,0 +1,303 @@
+{
+  "testDataTemplates": {
+    "authentication": {
+      "walletAddresses": {
+        "development": [
+          "11111111111111111111111111111112",
+          "2222222222222222222222222222222",
+          "3333333333333333333333333333333"
+        ],
+        "staging": [
+          "STAGING_WALLET_ADDRESS_1",
+          "STAGING_WALLET_ADDRESS_2",
+          "STAGING_WALLET_ADDRESS_3"
+        ],
+        "production": [
+          "PRODUCTION_WALLET_ADDRESS_1",
+          "PRODUCTION_WALLET_ADDRESS_2"
+        ]
+      },
+      "sampleMessages": [
+        "Energy Auction Platform Authentication Request",
+        "Sign this message to authenticate with Energy Auction Platform",
+        "Authenticate your wallet for energy trading"
+      ]
+    },
+    "bids": {
+      "validBids": [
+        {
+          "price": "0.05",
+          "quantity": "100",
+          "description": "Small residential bid"
+        },
+        {
+          "price": "0.15",
+          "quantity": "500",
+          "description": "Medium commercial bid"
+        },
+        {
+          "price": "0.25",
+          "quantity": "1000",
+          "description": "Large industrial bid"
+        }
+      ],
+      "invalidBids": [
+        {
+          "price": "-0.05",
+          "quantity": "100",
+          "description": "Negative price test",
+          "expectedError": "Price must be positive"
+        },
+        {
+          "price": "0.15",
+          "quantity": "0",
+          "description": "Zero quantity test",
+          "expectedError": "Quantity must be positive"
+        },
+        {
+          "price": "1000",
+          "quantity": "100",
+          "description": "Excessive price test",
+          "expectedError": "Price exceeds maximum allowed"
+        }
+      ],
+      "boundaryValues": [
+        {
+          "price": "0.001",
+          "quantity": "1",
+          "description": "Minimum valid values"
+        },
+        {
+          "price": "999.999",
+          "quantity": "999999",
+          "description": "Maximum valid values"
+        }
+      ]
+    },
+    "supplies": {
+      "validSupplies": [
+        {
+          "price": "0.08",
+          "quantity": "200",
+          "description": "Small solar supply"
+        },
+        {
+          "price": "0.12",
+          "quantity": "800",
+          "description": "Medium wind supply"
+        },
+        {
+          "price": "0.18",
+          "quantity": "1500",
+          "description": "Large hydro supply"
+        }
+      ],
+      "invalidSupplies": [
+        {
+          "price": "0",
+          "quantity": "200",
+          "description": "Zero price test",
+          "expectedError": "Price must be positive"
+        },
+        {
+          "price": "0.12",
+          "quantity": "-100",
+          "description": "Negative quantity test",
+          "expectedError": "Quantity must be positive"
+        }
+      ]
+    },
+    "timeslots": {
+      "sampleTimeslots": [
+        {
+          "startTime": "2024-12-01T10:00:00Z",
+          "endTime": "2024-12-01T11:00:00Z",
+          "maxPrice": "1.0",
+          "minPrice": "0.01",
+          "description": "Morning peak hours"
+        },
+        {
+          "startTime": "2024-12-01T14:00:00Z",
+          "endTime": "2024-12-01T15:00:00Z",
+          "maxPrice": "0.8",
+          "minPrice": "0.05",
+          "description": "Afternoon standard hours"
+        },
+        {
+          "startTime": "2024-12-01T22:00:00Z",
+          "endTime": "2024-12-01T23:00:00Z",
+          "maxPrice": "0.5",
+          "minPrice": "0.02",
+          "description": "Off-peak hours"
+        }
+      ]
+    },
+    "transactions": {
+      "sampleSignatures": [
+        "test-signature-12345",
+        "test-signature-67890",
+        "test-signature-abcdef",
+        "mock-blockchain-signature-001",
+        "mock-blockchain-signature-002"
+      ]
+    },
+    "errorScenarios": {
+      "authentication": [
+        {
+          "scenario": "Invalid wallet address",
+          "data": {
+            "walletAddress": "invalid-address"
+          },
+          "expectedStatus": 400,
+          "expectedError": "Invalid wallet address format"
+        },
+        {
+          "scenario": "Missing signature",
+          "data": {
+            "walletAddress": "11111111111111111111111111111112",
+            "message": "test message"
+          },
+          "expectedStatus": 400,
+          "expectedError": "Signature is required"
+        }
+      ],
+      "bids": [
+        {
+          "scenario": "Missing timeslot ID",
+          "data": {
+            "price": "0.15",
+            "quantity": "100"
+          },
+          "expectedStatus": 400,
+          "expectedError": "Timeslot ID is required"
+        },
+        {
+          "scenario": "Invalid price format",
+          "data": {
+            "timeslotId": "test-timeslot-id",
+            "price": "invalid-price",
+            "quantity": "100"
+          },
+          "expectedStatus": 400,
+          "expectedError": "Price must be a valid number"
+        }
+      ],
+      "supplies": [
+        {
+          "scenario": "Excessive quantity",
+          "data": {
+            "timeslotId": "test-timeslot-id",
+            "price": "0.12",
+            "quantity": "99999999"
+          },
+          "expectedStatus": 400,
+          "expectedError": "Quantity exceeds maximum allowed"
+        }
+      ]
+    },
+    "loadTesting": {
+      "concurrentUsers": [10, 50, 100, 500, 1000],
+      "requestsPerSecond": [10, 50, 100, 200, 500],
+      "testDuration": ["30s", "1m", "5m", "10m"],
+      "rampUpTime": ["10s", "30s", "1m", "2m"]
+    },
+    "performanceBaselines": {
+      "responseTimeThresholds": {
+        "authentication": 1000,
+        "dataRetrieval": 500,
+        "dataCreation": 1000,
+        "healthChecks": 200
+      },
+      "throughputTargets": {
+        "bidsPerSecond": 100,
+        "suppliesPerSecond": 50,
+        "concurrentConnections": 1000
+      }
+    }
+  },
+  "testScenarios": {
+    "happyPath": {
+      "name": "Complete User Journey",
+      "description": "Full workflow from authentication to bid placement",
+      "steps": [
+        "Initialize authentication",
+        "Complete wallet authentication",
+        "List available timeslots",
+        "Get timeslot details",
+        "Place bid",
+        "Verify bid placement",
+        "Get user bid history",
+        "Commit supply",
+        "Get user supplies"
+      ]
+    },
+    "errorHandling": {
+      "name": "Error Scenario Testing",
+      "description": "Test various error conditions and edge cases",
+      "steps": [
+        "Test invalid authentication",
+        "Test malformed requests",
+        "Test business rule violations",
+        "Test rate limiting",
+        "Test unauthorized access"
+      ]
+    },
+    "performanceTesting": {
+      "name": "Performance Validation",
+      "description": "Validate system performance under load",
+      "steps": [
+        "Baseline performance measurement",
+        "Gradual load increase",
+        "Peak load testing",
+        "Stress testing",
+        "Recovery testing"
+      ]
+    },
+    "securityTesting": {
+      "name": "Security Validation",
+      "description": "Test security measures and authentication",
+      "steps": [
+        "Authentication bypass attempts",
+        "Token manipulation tests",
+        "Input validation tests",
+        "Authorization boundary tests",
+        "Rate limiting validation"
+      ]
+    }
+  },
+  "automationHelpers": {
+    "preRequestScripts": {
+      "authenticationCheck": [
+        "if (!pm.environment.get('authToken')) {",
+        "    throw new Error('Authentication required. Please run wallet authentication first.');",
+        "}"
+      ],
+      "timestampGeneration": [
+        "pm.environment.set('timestamp', Date.now());"
+      ],
+      "randomDataGeneration": [
+        "pm.environment.set('randomPrice', (Math.random() * 0.5 + 0.1).toFixed(3));",
+        "pm.environment.set('randomQuantity', Math.floor(Math.random() * 500 + 50).toString());"
+      ]
+    },
+    "testScripts": {
+      "statusCodeValidation": [
+        "pm.test('Status code is 200', function () {",
+        "    pm.response.to.have.status(200);",
+        "});"
+      ],
+      "responseTimeValidation": [
+        "pm.test('Response time is acceptable', function () {",
+        "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+        "});"
+      ],
+      "responseStructureValidation": [
+        "pm.test('Response has correct structure', function () {",
+        "    const response = pm.response.json();",
+        "    pm.expect(response).to.have.property('success');",
+        "    pm.expect(response).to.have.property('data');",
+        "});"
+      ]
+    }
+  }
+}
