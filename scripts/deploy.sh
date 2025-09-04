@@ -26,27 +26,27 @@ mkdir -p logs
 
 # Build and start services
 echo "📦 Building Docker images..."
-docker-compose -f docker-compose.prod.yml build
+docker-compose -f deployment/docker-compose.prod.yml build
 
 echo "🗄️ Starting database..."
-docker-compose -f docker-compose.prod.yml up -d postgres redis
+docker-compose -f deployment/docker-compose.prod.yml up -d postgres redis
 
 # Wait for database to be ready
 echo "⏳ Waiting for database to be ready..."
 sleep 10
 
 echo "🔄 Running database migrations..."
-docker-compose -f docker-compose.prod.yml run --rm app bun run prisma:deploy
+docker-compose -f deployment/docker-compose.prod.yml run --rm app bun run prisma:deploy
 
 echo "🌱 Seeding database..."
-docker-compose -f docker-compose.prod.yml run --rm app bun run prisma:seed
+docker-compose -f deployment/docker-compose.prod.yml run --rm app bun run prisma:seed
 
 echo "🚀 Starting all services..."
-docker-compose -f docker-compose.prod.yml up -d
+docker-compose -f deployment/docker-compose.prod.yml up -d
 
 echo "✅ Deployment complete!"
 echo "🌐 Application is running at https://localhost"
 echo "📊 Health check: https://localhost/health"
 
 # Show running containers
-docker-compose -f docker-compose.prod.yml ps
+docker-compose -f deployment/docker-compose.prod.yml ps

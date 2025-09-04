@@ -1,4 +1,45 @@
-# Energy Auction Platform - Backend API
+# Solana Energy Auction Platform Backend
+
+A production-ready TypeScript backend for a decentralized energy auction platform built on Solana blockchain.
+
+## 🏗️ Project Structure
+
+```
+auction_backend/
+├── src/                    # Source code
+│   ├── controllers/        # API route handlers
+│   ├── middleware/         # Express middleware
+│   ├── services/           # Business logic
+│   ├── models/             # Data models
+│   ├── routes/             # API routes
+│   ├── types/              # TypeScript type definitions
+│   ├── utils/              # Utility functions
+│   └── config/             # Configuration files
+├── prisma/                 # Database schema and migrations
+├── tests/                  # Test files
+│   ├── integration/        # Integration tests
+│   └── production/         # Production test files
+├── scripts/                # Utility scripts
+│   ├── deploy.sh           # Production deployment script
+│   ├── test-all.sh         # Run all tests
+│   └── *.ts               # Setup and initialization scripts
+├── docs/                   # Documentation
+│   ├── API.md             # API documentation
+│   ├── DEPLOYMENT.md      # Deployment guide
+│   ├── DEVELOPMENT.md     # Development setup
+│   └── TROUBLESHOOTING.md # Common issues and solutions
+├── config/                 # Environment configurations
+│   ├── .env.example       # Environment template
+│   ├── .env.development   # Development config
+│   ├── .env.production    # Production config
+│   └── .env.test          # Test config
+├── deployment/             # Deployment configurations
+│   ├── docker-compose.prod.yml
+│   ├── nginx.conf
+│   └── monitoring.yml
+├── postman/                # API testing collection
+└── target/                 # Solana program build artifacts
+```
 
 ## 🚀 Overview
 
