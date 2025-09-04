@@ -1,0 +1,7 @@
+/Users/anujs101/Desktop/dev/energy_auction/target/release/deps/libcfg_aliases-e5222d2c9da662d3.rmeta: /Users/anujs101/.cargo/registry/src/index.crates.io-6f17d22bba15001f/cfg_aliases-0.2.1/src/lib.rs
+
+/Users/anujs101/Desktop/dev/energy_auction/target/release/deps/libcfg_aliases-e5222d2c9da662d3.rlib: /Users/anujs101/.cargo/registry/src/index.crates.io-6f17d22bba15001f/cfg_aliases-0.2.1/src/lib.rs
+
+/Users/anujs101/Desktop/dev/energy_auction/target/release/deps/cfg_aliases-e5222d2c9da662d3.d: /Users/anujs101/.cargo/registry/src/index.crates.io-6f17d22bba15001f/cfg_aliases-0.2.1/src/lib.rs
+
+/Users/anujs101/.cargo/registry/src/index.crates.io-6f17d22bba15001f/cfg_aliases-0.2.1/src/lib.rs:

@@ -1,0 +1,1 @@
+std::result::Result<instruction::EmergencyWithdraw, std::io::Error>

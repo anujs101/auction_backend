@@ -1,0 +1,6394 @@
+{
+  "address": "5jcCqhVXRebbuCMVeRtm18FQiNiWUrQBdxkevyCWLCE7",
+  "metadata": {
+    "name": "energy_auction",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Created with Anchor"
+  },
+  "instructions": [
+    {
+      "name": "appeal_slashing",
+      "docs": [
+        "Appeal a slashing decision"
+      ],
+      "discriminator": [
+        137,
+        188,
+        82,
+        135,
+        10,
+        74,
+        128,
+        202
+      ],
+      "accounts": [
+        {
+          "name": "slashing_state",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  115,
+                  108,
+                  97,
+                  115,
+                  104,
+                  105,
+                  110,
+                  103,
+                  95,
+                  115,
+                  116,
+                  97,
+                  116,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "slashing_state.timeslot",
+                "account": "SlashingState"
+              },
+              {
+                "kind": "account",
+                "path": "seller"
+              }
+            ]
+          }
+        },
+        {
+          "name": "seller",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "clock",
+          "address": "SysvarC1ock11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "appeal_evidence",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "calculate_buyer_allocations",
+      "docs": [
+        "Calculate buyer allocations from multiple sellers in merit order"
+      ],
+      "discriminator": [
+        117,
+        154,
+        8,
+        212,
+        133,
+        199,
+        0,
+        134
+      ],
+      "accounts": [
+        {
+          "name": "global_state"
+        },
+        {
+          "name": "timeslot",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  105,
+                  109,
+                  101,
+                  115,
+                  108,
+                  111,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot.epoch_ts",
+                "account": "Timeslot"
+              }
+            ]
+          }
+        },
+        {
+          "name": "auction_state",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  97,
+                  117,
+                  99,
+                  116,
+                  105,
+                  111,
+                  110,
+                  95,
+                  115,
+                  116,
+                  97,
+                  116,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot"
+              }
+            ]
+          }
+        },
+        {
+          "name": "buyer_allocation",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  98,
+                  117,
+                  121,
+                  101,
+                  114,
+                  95,
+                  97,
+                  108,
+                  108,
+                  111,
+                  99,
+                  97,
+                  116,
+                  105,
+                  111,
+                  110
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot"
+              },
+              {
+                "kind": "arg",
+                "path": "buyer_key"
+              }
+            ]
+          }
+        },
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "buyer_key",
+          "type": "pubkey"
+        }
+      ]
+    },
+    {
+      "name": "calculate_seller_allocations",
+      "discriminator": [
+        152,
+        41,
+        231,
+        171,
+        139,
+        6,
+        23,
+        8
+      ],
+      "accounts": [
+        {
+          "name": "global_state"
+        },
+        {
+          "name": "timeslot",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  105,
+                  109,
+                  101,
+                  115,
+                  108,
+                  111,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot.epoch_ts",
+                "account": "Timeslot"
+              }
+            ]
+          }
+        },
+        {
+          "name": "supply",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  115,
+                  117,
+                  112,
+                  112,
+                  108,
+                  121
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot"
+              },
+              {
+                "kind": "account",
+                "path": "supply.supplier",
+                "account": "Supply"
+              }
+            ]
+          }
+        },
+        {
+          "name": "seller_allocation",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  115,
+                  101,
+                  108,
+                  108,
+                  101,
+                  114,
+                  95,
+                  97,
+                  108,
+                  108,
+                  111,
+                  99,
+                  97,
+                  116,
+                  105,
+                  111,
+                  110
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot"
+              },
+              {
+                "kind": "account",
+                "path": "supply.supplier",
+                "account": "Supply"
+              }
+            ]
+          }
+        },
+        {
+          "name": "remaining_allocation_tracker",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  97,
+                  108,
+                  108,
+                  111,
+                  99,
+                  97,
+                  116,
+                  105,
+                  111,
+                  110,
+                  95,
+                  116,
+                  114,
+                  97,
+                  99,
+                  107,
+                  101,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot"
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "clearing_price",
+          "type": "u64"
+        },
+        {
+          "name": "_total_sold_quantity",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "cancel_auction",
+      "docs": [
+        "Cancel auction in case of failure or emergency"
+      ],
+      "discriminator": [
+        156,
+        43,
+        197,
+        110,
+        218,
+        105,
+        143,
+        182
+      ],
+      "accounts": [
+        {
+          "name": "global_state"
+        },
+        {
+          "name": "timeslot",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  105,
+                  109,
+                  101,
+                  115,
+                  108,
+                  111,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot.epoch_ts",
+                "account": "Timeslot"
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "signer": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "commit_supply",
+      "docs": [
+        "Seller commits supply (one-time per (global_state, timeslot, seller))",
+        "Escrows seller's energy tokens into a program-owned vault (authority = timeslot PDA)"
+      ],
+      "discriminator": [
+        27,
+        99,
+        221,
+        158,
+        123,
+        73,
+        174,
+        98
+      ],
+      "accounts": [
+        {
+          "name": "global_state"
+        },
+        {
+          "name": "timeslot",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  105,
+                  109,
+                  101,
+                  115,
+                  108,
+                  111,
+                  116
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "timeslot_epoch"
+              }
+            ]
+          }
+        },
+        {
+          "name": "supply",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  115,
+                  117,
+                  112,
+                  112,
+                  108,
+                  121
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot"
+              },
+              {
+                "kind": "account",
+                "path": "signer"
+              }
+            ]
+          }
+        },
+        {
+          "name": "energy_mint"
+        },
+        {
+          "name": "seller_source",
+          "writable": true
+        },
+        {
+          "name": "seller_escrow",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  115,
+                  101,
+                  108,
+                  108,
+                  101,
+                  114,
+                  95,
+                  101,
+                  115,
+                  99,
+                  114,
+                  111,
+                  119
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot"
+              },
+              {
+                "kind": "account",
+                "path": "signer"
+              }
+            ]
+          }
+        },
+        {
+          "name": "signer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        }
+      ],
+      "args": [
+        {
+          "name": "timeslot_epoch",
+          "type": "i64"
+        },
+        {
+          "name": "reserve_price",
+          "type": "u64"
+        },
+        {
+          "name": "quantity",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "create_fill_receipt",
+      "docs": [
+        "2. Create Fill Receipt: Authority creates a receipt for each winning buyer."
+      ],
+      "discriminator": [
+        87,
+        197,
+        138,
+        119,
+        136,
+        216,
+        227,
+        137
+      ],
+      "accounts": [
+        {
+          "name": "global_state"
+        },
+        {
+          "name": "timeslot",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  105,
+                  109,
+                  101,
+                  115,
+                  108,
+                  111,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot.epoch_ts",
+                "account": "Timeslot"
+              }
+            ]
+          }
+        },
+        {
+          "name": "buyer"
+        },
+        {
+          "name": "fill_receipt",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  102,
+                  105,
+                  108,
+                  108,
+                  95,
+                  114,
+                  101,
+                  99,
+                  101,
+                  105,
+                  112,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot"
+              },
+              {
+                "kind": "account",
+                "path": "buyer"
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "quantity",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "emergency_pause",
+      "docs": [
+        "Emergency pause the protocol"
+      ],
+      "discriminator": [
+        21,
+        143,
+        27,
+        142,
+        200,
+        181,
+        210,
+        255
+      ],
+      "accounts": [
+        {
+          "name": "global_state"
+        },
+        {
+          "name": "emergency_state",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  101,
+                  109,
+                  101,
+                  114,
+                  103,
+                  101,
+                  110,
+                  99,
+                  121,
+                  95,
+                  115,
+                  116,
+                  97,
+                  116,
+                  101
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "clock",
+          "address": "SysvarC1ock11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "reason",
+          "type": {
+            "array": [
+              "u8",
+              64
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "emergency_resume",
+      "docs": [
+        "Resume protocol after emergency pause"
+      ],
+      "discriminator": [
+        0,
+        243,
+        48,
+        185,
+        6,
+        73,
+        190,
+        83
+      ],
+      "accounts": [
+        {
+          "name": "global_state"
+        },
+        {
+          "name": "emergency_state",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  101,
+                  109,
+                  101,
+                  114,
+                  103,
+                  101,
+                  110,
+                  99,
+                  121,
+                  95,
+                  115,
+                  116,
+                  97,
+                  116,
+                  101
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "signer": true
+        },
+        {
+          "name": "clock",
+          "address": "SysvarC1ock11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "emergency_withdraw",
+      "docs": [
+        "Emergency withdrawal for stuck funds with comprehensive validation"
+      ],
+      "discriminator": [
+        239,
+        45,
+        203,
+        64,
+        150,
+        73,
+        218,
+        92
+      ],
+      "accounts": [
+        {
+          "name": "global_state"
+        },
+        {
+          "name": "timeslot",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  105,
+                  109,
+                  101,
+                  115,
+                  108,
+                  111,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot.epoch_ts",
+                "account": "Timeslot"
+              }
+            ]
+          }
+        },
+        {
+          "name": "source_account",
+          "writable": true
+        },
+        {
+          "name": "destination_account",
+          "writable": true
+        },
+        {
+          "name": "emergency_state"
+        },
+        {
+          "name": "authority",
+          "signer": true
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "withdrawal_type",
+          "type": {
+            "defined": {
+              "name": "EmergencyWithdrawalType"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "execute_auction_clearing",
+      "docs": [
+        "Execute the auction clearing algorithm to determine the final price and quantity",
+        "This is the core of the auction mechanism that finds the intersection of supply and demand"
+      ],
+      "discriminator": [
+        32,
+        184,
+        16,
+        30,
+        202,
+        150,
+        34,
+        93
+      ],
+      "accounts": [
+        {
+          "name": "global_state"
+        },
+        {
+          "name": "timeslot",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  105,
+                  109,
+                  101,
+                  115,
+                  108,
+                  111,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot.epoch_ts",
+                "account": "Timeslot"
+              }
+            ]
+          }
+        },
+        {
+          "name": "auction_state",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  97,
+                  117,
+                  99,
+                  116,
+                  105,
+                  111,
+                  110,
+                  95,
+                  115,
+                  116,
+                  97,
+                  116,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot"
+              }
+            ]
+          }
+        },
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "clock",
+          "address": "SysvarC1ock11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "execute_proposal",
+      "docs": [
+        "Execute approved governance proposal with multi-signature validation"
+      ],
+      "discriminator": [
+        186,
+        60,
+        116,
+        133,
+        108,
+        128,
+        111,
+        28
+      ],
+      "accounts": [
+        {
+          "name": "proposal",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  111,
+                  112,
+                  111,
+                  115,
+                  97,
+                  108
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "proposal.proposal_id",
+                "account": "GovernanceProposal"
+              }
+            ]
+          }
+        },
+        {
+          "name": "global_state",
+          "writable": true
+        },
+        {
+          "name": "authority",
+          "signer": true
+        },
+        {
+          "name": "clock",
+          "address": "SysvarC1ock11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "execute_slashing",
+      "docs": [
+        "Execute slashing penalties after appeal period with comprehensive validation"
+      ],
+      "discriminator": [
+        161,
+        194,
+        131,
+        169,
+        220,
+        60,
+        7,
+        232
+      ],
+      "accounts": [
+        {
+          "name": "global_state"
+        },
+        {
+          "name": "timeslot",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  105,
+                  109,
+                  101,
+                  115,
+                  108,
+                  111,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot.epoch_ts",
+                "account": "Timeslot"
+              }
+            ]
+          }
+        },
+        {
+          "name": "slashing_state",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  115,
+                  108,
+                  97,
+                  115,
+                  104,
+                  105,
+                  110,
+                  103,
+                  95,
+                  115,
+                  116,
+                  97,
+                  116,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot"
+              },
+              {
+                "kind": "account",
+                "path": "slashing_state.supplier",
+                "account": "SlashingState"
+              }
+            ]
+          }
+        },
+        {
+          "name": "seller_collateral",
+          "writable": true
+        },
+        {
+          "name": "slashing_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  115,
+                  108,
+                  97,
+                  115,
+                  104,
+                  105,
+                  110,
+                  103,
+                  95,
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "seller_allocation"
+        },
+        {
+          "name": "authority",
+          "signer": true
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "clock",
+          "address": "SysvarC1ock11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "init_allocation_tracker",
+      "discriminator": [
+        199,
+        77,
+        89,
+        167,
+        143,
+        236,
+        81,
+        75
+      ],
+      "accounts": [
+        {
+          "name": "global_state"
+        },
+        {
+          "name": "timeslot",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  105,
+                  109,
+                  101,
+                  115,
+                  108,
+                  111,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot.epoch_ts",
+                "account": "Timeslot"
+              }
+            ]
+          }
+        },
+        {
+          "name": "allocation_tracker",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  97,
+                  108,
+                  108,
+                  111,
+                  99,
+                  97,
+                  116,
+                  105,
+                  111,
+                  110,
+                  95,
+                  116,
+                  114,
+                  97,
+                  99,
+                  107,
+                  101,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot"
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "init_bid_registry",
+      "docs": [
+        "Initialize bid registry for a timeslot"
+      ],
+      "discriminator": [
+        67,
+        27,
+        217,
+        123,
+        13,
+        9,
+        93,
+        249
+      ],
+      "accounts": [
+        {
+          "name": "timeslot",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  105,
+                  109,
+                  101,
+                  115,
+                  108,
+                  111,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot.epoch_ts",
+                "account": "Timeslot"
+              }
+            ]
+          }
+        },
+        {
+          "name": "bid_registry",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  98,
+                  105,
+                  100,
+                  95,
+                  114,
+                  101,
+                  103,
+                  105,
+                  115,
+                  116,
+                  114,
+                  121
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot"
+              }
+            ]
+          }
+        },
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "initialize",
+      "docs": [
+        "Initialize the global protocol state"
+      ],
+      "discriminator": [
+        175,
+        175,
+        109,
+        31,
+        13,
+        152,
+        155,
+        237
+      ],
+      "accounts": [
+        {
+          "name": "global_state",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  103,
+                  108,
+                  111,
+                  98,
+                  97,
+                  108,
+                  95,
+                  115,
+                  116,
+                  97,
+                  116,
+                  101
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "quote_mint",
+          "docs": [
+            "Quote token mint (e.g., USDC)"
+          ]
+        },
+        {
+          "name": "fee_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  102,
+                  101,
+                  101,
+                  95,
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "rent",
+          "address": "SysvarRent111111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "fee_bps",
+          "type": "u16"
+        },
+        {
+          "name": "version",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "open_timeslot",
+      "docs": [
+        "Open a new auction timeslot"
+      ],
+      "discriminator": [
+        100,
+        104,
+        113,
+        222,
+        56,
+        109,
+        141,
+        151
+      ],
+      "accounts": [
+        {
+          "name": "global_state",
+          "writable": true
+        },
+        {
+          "name": "timeslot",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  105,
+                  109,
+                  101,
+                  115,
+                  108,
+                  111,
+                  116
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "epoch_ts"
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "epoch_ts",
+          "type": "i64"
+        },
+        {
+          "name": "lot_size",
+          "type": "u64"
+        },
+        {
+          "name": "price_tick",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "place_bid",
+      "docs": [
+        "Buyer places bid, escrows quote tokens (USDC) into a program-owned vault (authority = timeslot PDA)"
+      ],
+      "discriminator": [
+        238,
+        77,
+        148,
+        91,
+        200,
+        151,
+        92,
+        146
+      ],
+      "accounts": [
+        {
+          "name": "global_state",
+          "writable": true
+        },
+        {
+          "name": "timeslot",
+          "writable": true
+        },
+        {
+          "name": "timeslot_quote_escrow",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  113,
+                  117,
+                  111,
+                  116,
+                  101,
+                  95,
+                  101,
+                  115,
+                  99,
+                  114,
+                  111,
+                  119
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot"
+              }
+            ]
+          }
+        },
+        {
+          "name": "quote_mint"
+        },
+        {
+          "name": "buyer_source",
+          "writable": true
+        },
+        {
+          "name": "buyer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "bid_page",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  98,
+                  105,
+                  100,
+                  95,
+                  112,
+                  97,
+                  103,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot"
+              },
+              {
+                "kind": "arg",
+                "path": "page_index"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        }
+      ],
+      "args": [
+        {
+          "name": "_page_index",
+          "type": "u32"
+        },
+        {
+          "name": "price",
+          "type": "u64"
+        },
+        {
+          "name": "quantity",
+          "type": "u64"
+        },
+        {
+          "name": "timestamp",
+          "type": "i64"
+        }
+      ]
+    },
+    {
+      "name": "process_bid_batch",
+      "docs": [
+        "Process a batch of bids for auction clearing",
+        "This instruction processes bids from multiple pages and aggregates them by price level"
+      ],
+      "discriminator": [
+        180,
+        218,
+        167,
+        11,
+        129,
+        12,
+        127,
+        123
+      ],
+      "accounts": [
+        {
+          "name": "global_state"
+        },
+        {
+          "name": "timeslot",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  105,
+                  109,
+                  101,
+                  115,
+                  108,
+                  111,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot.epoch_ts",
+                "account": "Timeslot"
+              }
+            ]
+          }
+        },
+        {
+          "name": "auction_state",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  97,
+                  117,
+                  99,
+                  116,
+                  105,
+                  111,
+                  110,
+                  95,
+                  115,
+                  116,
+                  97,
+                  116,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot"
+              }
+            ]
+          }
+        },
+        {
+          "name": "price_level",
+          "writable": true
+        },
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "rent",
+          "address": "SysvarRent111111111111111111111111111111111"
+        },
+        {
+          "name": "clock",
+          "address": "SysvarC1ock11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "start_page",
+          "type": "u32"
+        },
+        {
+          "name": "end_page",
+          "type": "u32"
+        }
+      ],
+      "returns": {
+        "defined": {
+          "name": "BatchResult"
+        }
+      }
+    },
+    {
+      "name": "process_supply_batch",
+      "docs": [
+        "Process a batch of supply commitments for auction clearing",
+        "This instruction processes supply from multiple sellers and sorts them by reserve price"
+      ],
+      "discriminator": [
+        117,
+        81,
+        11,
+        210,
+        242,
+        246,
+        173,
+        234
+      ],
+      "accounts": [
+        {
+          "name": "global_state"
+        },
+        {
+          "name": "timeslot",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  105,
+                  109,
+                  101,
+                  115,
+                  108,
+                  111,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot.epoch_ts",
+                "account": "Timeslot"
+              }
+            ]
+          }
+        },
+        {
+          "name": "auction_state",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  97,
+                  117,
+                  99,
+                  116,
+                  105,
+                  111,
+                  110,
+                  95,
+                  115,
+                  116,
+                  97,
+                  116,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot"
+              }
+            ]
+          }
+        },
+        {
+          "name": "allocation_tracker",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  97,
+                  108,
+                  108,
+                  111,
+                  99,
+                  97,
+                  116,
+                  105,
+                  111,
+                  110,
+                  95,
+                  116,
+                  114,
+                  97,
+                  99,
+                  107,
+                  101,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot"
+              }
+            ]
+          }
+        },
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "rent",
+          "address": "SysvarRent111111111111111111111111111111111"
+        },
+        {
+          "name": "clock",
+          "address": "SysvarC1ock11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "supplier_keys",
+          "type": {
+            "vec": "pubkey"
+          }
+        }
+      ],
+      "returns": {
+        "defined": {
+          "name": "SupplyAllocationResult"
+        }
+      }
+    },
+    {
+      "name": "propose_parameter_change",
+      "docs": [
+        "Propose parameter change through governance with enhanced validation"
+      ],
+      "discriminator": [
+        177,
+        33,
+        9,
+        169,
+        8,
+        70,
+        78,
+        151
+      ],
+      "accounts": [
+        {
+          "name": "global_state"
+        },
+        {
+          "name": "proposal",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  111,
+                  112,
+                  111,
+                  115,
+                  97,
+                  108
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "proposal_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "proposer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "proposer_stake",
+          "docs": [
+            "Token account representing proposer's stake"
+          ]
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "clock",
+          "address": "SysvarC1ock11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "proposal_id",
+          "type": "u64"
+        },
+        {
+          "name": "proposal_type",
+          "type": {
+            "defined": {
+              "name": "ProposalType"
+            }
+          }
+        },
+        {
+          "name": "new_value",
+          "type": "u64"
+        },
+        {
+          "name": "description",
+          "type": {
+            "array": [
+              "u8",
+              128
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "redeem_energy_and_refund",
+      "docs": [
+        "4. Redeem Energy & Refund: Buyer claims their won energy and gets a refund for over-bids."
+      ],
+      "discriminator": [
+        163,
+        71,
+        159,
+        32,
+        82,
+        75,
+        214,
+        0
+      ],
+      "accounts": [
+        {
+          "name": "timeslot",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  105,
+                  109,
+                  101,
+                  115,
+                  108,
+                  111,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot.epoch_ts",
+                "account": "Timeslot"
+              }
+            ]
+          }
+        },
+        {
+          "name": "buyer_allocation",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  98,
+                  117,
+                  121,
+                  101,
+                  114,
+                  95,
+                  97,
+                  108,
+                  108,
+                  111,
+                  99,
+                  97,
+                  116,
+                  105,
+                  111,
+                  110
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot"
+              },
+              {
+                "kind": "account",
+                "path": "buyer"
+              }
+            ]
+          }
+        },
+        {
+          "name": "timeslot_quote_escrow",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  113,
+                  117,
+                  111,
+                  116,
+                  101,
+                  95,
+                  101,
+                  115,
+                  99,
+                  114,
+                  111,
+                  119
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot"
+              }
+            ]
+          }
+        },
+        {
+          "name": "buyer_quote_ata",
+          "writable": true
+        },
+        {
+          "name": "buyer_energy_ata",
+          "writable": true
+        },
+        {
+          "name": "buyer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "refund_cancelled_auction_buyers",
+      "docs": [
+        "Refund buyers after auction cancellation"
+      ],
+      "discriminator": [
+        200,
+        255,
+        10,
+        233,
+        170,
+        63,
+        208,
+        155
+      ],
+      "accounts": [
+        {
+          "name": "global_state"
+        },
+        {
+          "name": "timeslot",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  105,
+                  109,
+                  101,
+                  115,
+                  108,
+                  111,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot.epoch_ts",
+                "account": "Timeslot"
+              }
+            ]
+          }
+        },
+        {
+          "name": "cancellation_state",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  97,
+                  110,
+                  99,
+                  101,
+                  108,
+                  108,
+                  97,
+                  116,
+                  105,
+                  111,
+                  110,
+                  95,
+                  115,
+                  116,
+                  97,
+                  116,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot"
+              }
+            ]
+          }
+        },
+        {
+          "name": "timeslot_quote_escrow",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  113,
+                  117,
+                  111,
+                  116,
+                  101,
+                  95,
+                  101,
+                  115,
+                  99,
+                  114,
+                  111,
+                  119
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot"
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "start_page",
+          "type": "u32"
+        },
+        {
+          "name": "end_page",
+          "type": "u32"
+        }
+      ],
+      "returns": {
+        "defined": {
+          "name": "RefundBatchResult"
+        }
+      }
+    },
+    {
+      "name": "refund_cancelled_auction_sellers",
+      "docs": [
+        "Refund sellers after auction cancellation"
+      ],
+      "discriminator": [
+        141,
+        81,
+        230,
+        89,
+        150,
+        163,
+        11,
+        175
+      ],
+      "accounts": [
+        {
+          "name": "global_state"
+        },
+        {
+          "name": "timeslot",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  105,
+                  109,
+                  101,
+                  115,
+                  108,
+                  111,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot.epoch_ts",
+                "account": "Timeslot"
+              }
+            ]
+          }
+        },
+        {
+          "name": "cancellation_state",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  97,
+                  110,
+                  99,
+                  101,
+                  108,
+                  108,
+                  97,
+                  116,
+                  105,
+                  111,
+                  110,
+                  95,
+                  115,
+                  116,
+                  97,
+                  116,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot"
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        }
+      ],
+      "args": [
+        {
+          "name": "seller_keys",
+          "type": {
+            "vec": "pubkey"
+          }
+        }
+      ],
+      "returns": {
+        "defined": {
+          "name": "RefundBatchResult"
+        }
+      }
+    },
+    {
+      "name": "register_bid_page",
+      "docs": [
+        "Register a bid page in the bid registry"
+      ],
+      "discriminator": [
+        246,
+        165,
+        196,
+        48,
+        187,
+        240,
+        12,
+        26
+      ],
+      "accounts": [
+        {
+          "name": "global_state"
+        },
+        {
+          "name": "bid_registry",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  98,
+                  105,
+                  100,
+                  95,
+                  114,
+                  101,
+                  103,
+                  105,
+                  115,
+                  116,
+                  114,
+                  121
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot"
+              }
+            ]
+          }
+        },
+        {
+          "name": "timeslot",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  105,
+                  109,
+                  101,
+                  115,
+                  108,
+                  111,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot.epoch_ts",
+                "account": "Timeslot"
+              }
+            ]
+          }
+        },
+        {
+          "name": "bid_page",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  98,
+                  105,
+                  100,
+                  95,
+                  112,
+                  97,
+                  103,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot"
+              },
+              {
+                "kind": "arg",
+                "path": "page_index"
+              }
+            ]
+          }
+        }
+      ],
+      "args": [
+        {
+          "name": "_page_index",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "register_seller",
+      "docs": [
+        "Register seller in the seller registry for efficient lookup"
+      ],
+      "discriminator": [
+        9,
+        50,
+        144,
+        162,
+        206,
+        176,
+        154,
+        111
+      ],
+      "accounts": [
+        {
+          "name": "global_state"
+        },
+        {
+          "name": "timeslot",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  105,
+                  109,
+                  101,
+                  115,
+                  108,
+                  111,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot.epoch_ts",
+                "account": "Timeslot"
+              }
+            ]
+          }
+        },
+        {
+          "name": "seller_registry",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  115,
+                  101,
+                  108,
+                  108,
+                  101,
+                  114,
+                  95,
+                  114,
+                  101,
+                  103,
+                  105,
+                  115,
+                  116,
+                  114,
+                  121
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot"
+              }
+            ]
+          }
+        },
+        {
+          "name": "seller",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "report_non_delivery",
+      "docs": [
+        "Report non-delivery by a seller"
+      ],
+      "discriminator": [
+        215,
+        237,
+        197,
+        139,
+        183,
+        241,
+        28,
+        61
+      ],
+      "accounts": [
+        {
+          "name": "global_state"
+        },
+        {
+          "name": "timeslot",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  105,
+                  109,
+                  101,
+                  115,
+                  108,
+                  111,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot.epoch_ts",
+                "account": "Timeslot"
+              }
+            ]
+          }
+        },
+        {
+          "name": "seller_allocation",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  115,
+                  101,
+                  108,
+                  108,
+                  101,
+                  114,
+                  95,
+                  97,
+                  108,
+                  108,
+                  111,
+                  99,
+                  97,
+                  116,
+                  105,
+                  111,
+                  110
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot"
+              },
+              {
+                "kind": "account",
+                "path": "seller_allocation.supplier",
+                "account": "SellerAllocation"
+              }
+            ]
+          }
+        },
+        {
+          "name": "slashing_state",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  115,
+                  108,
+                  97,
+                  115,
+                  104,
+                  105,
+                  110,
+                  103,
+                  95,
+                  115,
+                  116,
+                  97,
+                  116,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot"
+              },
+              {
+                "kind": "account",
+                "path": "seller_allocation.supplier",
+                "account": "SellerAllocation"
+              }
+            ]
+          }
+        },
+        {
+          "name": "reporter",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "clock",
+          "address": "SysvarC1ock11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "delivered_quantity",
+          "type": "u64"
+        },
+        {
+          "name": "evidence_hash",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "resolve_slashing_appeal",
+      "docs": [
+        "Appeal resolution system with evidence validation"
+      ],
+      "discriminator": [
+        18,
+        67,
+        217,
+        26,
+        32,
+        10,
+        217,
+        60
+      ],
+      "accounts": [
+        {
+          "name": "global_state"
+        },
+        {
+          "name": "slashing_state",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  115,
+                  108,
+                  97,
+                  115,
+                  104,
+                  105,
+                  110,
+                  103,
+                  95,
+                  115,
+                  116,
+                  97,
+                  116,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot"
+              },
+              {
+                "kind": "account",
+                "path": "slashing_state.supplier",
+                "account": "SlashingState"
+              }
+            ]
+          }
+        },
+        {
+          "name": "timeslot",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  105,
+                  109,
+                  101,
+                  115,
+                  108,
+                  111,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot.epoch_ts",
+                "account": "Timeslot"
+              }
+            ]
+          }
+        },
+        {
+          "name": "seller_collateral",
+          "writable": true
+        },
+        {
+          "name": "slashing_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  115,
+                  108,
+                  97,
+                  115,
+                  104,
+                  105,
+                  110,
+                  103,
+                  95,
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "clock",
+          "address": "SysvarC1ock11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "decision",
+          "type": {
+            "defined": {
+              "name": "AppealDecision"
+            }
+          }
+        },
+        {
+          "name": "resolution_evidence",
+          "type": {
+            "array": [
+              "u8",
+              64
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "rollback_failed_auction",
+      "docs": [
+        "Rollback failed auction to previous state"
+      ],
+      "discriminator": [
+        101,
+        247,
+        143,
+        229,
+        185,
+        139,
+        222,
+        198
+      ],
+      "accounts": [
+        {
+          "name": "global_state"
+        },
+        {
+          "name": "timeslot",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  105,
+                  109,
+                  101,
+                  115,
+                  108,
+                  111,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot.epoch_ts",
+                "account": "Timeslot"
+              }
+            ]
+          }
+        },
+        {
+          "name": "auction_state",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  97,
+                  117,
+                  99,
+                  116,
+                  105,
+                  111,
+                  110,
+                  95,
+                  115,
+                  116,
+                  97,
+                  116,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot"
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "signer": true
+        },
+        {
+          "name": "clock",
+          "address": "SysvarC1ock11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "seal_timeslot",
+      "docs": [
+        "Seal a timeslot (freeze order flow)"
+      ],
+      "discriminator": [
+        30,
+        186,
+        196,
+        57,
+        64,
+        117,
+        138,
+        41
+      ],
+      "accounts": [
+        {
+          "name": "global_state"
+        },
+        {
+          "name": "timeslot",
+          "writable": true
+        },
+        {
+          "name": "authority",
+          "signer": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "settle_timeslot",
+      "docs": [
+        "1. Settle Timeslot: Authority sets the final clearing price and sold quantity.",
+        "This instruction only records the outcome; it does not move funds."
+      ],
+      "discriminator": [
+        100,
+        213,
+        28,
+        54,
+        29,
+        49,
+        70,
+        164
+      ],
+      "accounts": [
+        {
+          "name": "global_state"
+        },
+        {
+          "name": "timeslot",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  105,
+                  109,
+                  101,
+                  115,
+                  108,
+                  111,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot.epoch_ts",
+                "account": "Timeslot"
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "signer": true
+        }
+      ],
+      "args": [
+        {
+          "name": "clearing_price",
+          "type": "u64"
+        },
+        {
+          "name": "__total_sold_quantity",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "validate_system_health",
+      "docs": [
+        "Add comprehensive input validation and circuit breaker"
+      ],
+      "discriminator": [
+        47,
+        63,
+        203,
+        82,
+        218,
+        218,
+        28,
+        201
+      ],
+      "accounts": [
+        {
+          "name": "global_state"
+        },
+        {
+          "name": "emergency_state"
+        },
+        {
+          "name": "clock",
+          "address": "SysvarC1ock11111111111111111111111111111111"
+        }
+      ],
+      "args": [],
+      "returns": {
+        "defined": {
+          "name": "SystemHealthReport"
+        }
+      }
+    },
+    {
+      "name": "verify_auction_clearing",
+      "docs": [
+        "Verify the mathematical correctness of the auction clearing",
+        "This ensures that the auction results satisfy all required properties"
+      ],
+      "discriminator": [
+        197,
+        95,
+        119,
+        183,
+        175,
+        151,
+        125,
+        80
+      ],
+      "accounts": [
+        {
+          "name": "global_state"
+        },
+        {
+          "name": "timeslot",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  105,
+                  109,
+                  101,
+                  115,
+                  108,
+                  111,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot.epoch_ts",
+                "account": "Timeslot"
+              }
+            ]
+          }
+        },
+        {
+          "name": "auction_state",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  97,
+                  117,
+                  99,
+                  116,
+                  105,
+                  111,
+                  110,
+                  95,
+                  115,
+                  116,
+                  97,
+                  116,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot"
+              }
+            ]
+          }
+        },
+        {
+          "name": "timeslot_quote_escrow",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  113,
+                  117,
+                  111,
+                  116,
+                  101,
+                  95,
+                  101,
+                  115,
+                  99,
+                  114,
+                  111,
+                  119
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot"
+              }
+            ]
+          }
+        },
+        {
+          "name": "clock",
+          "address": "SysvarC1ock11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "verify_delivery_confirmation",
+      "docs": [
+        "Verify delivery confirmation from oracle with automated penalty triggers"
+      ],
+      "discriminator": [
+        192,
+        88,
+        211,
+        8,
+        208,
+        168,
+        75,
+        99
+      ],
+      "accounts": [
+        {
+          "name": "global_state"
+        },
+        {
+          "name": "timeslot",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  105,
+                  109,
+                  101,
+                  115,
+                  108,
+                  111,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot.epoch_ts",
+                "account": "Timeslot"
+              }
+            ]
+          }
+        },
+        {
+          "name": "slashing_state",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  115,
+                  108,
+                  97,
+                  115,
+                  104,
+                  105,
+                  110,
+                  103,
+                  95,
+                  115,
+                  116,
+                  97,
+                  116,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot"
+              },
+              {
+                "kind": "account",
+                "path": "supplier"
+              }
+            ]
+          }
+        },
+        {
+          "name": "supplier"
+        },
+        {
+          "name": "seller_allocation"
+        },
+        {
+          "name": "oracle"
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "clock",
+          "address": "SysvarC1ock11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "delivery_report",
+          "type": {
+            "defined": {
+              "name": "DeliveryReport"
+            }
+          }
+        },
+        {
+          "name": "oracle_signature",
+          "type": {
+            "array": [
+              "u8",
+              64
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "vote_on_proposal",
+      "docs": [
+        "Vote on a governance proposal with multi-signature support"
+      ],
+      "discriminator": [
+        188,
+        239,
+        13,
+        88,
+        119,
+        199,
+        251,
+        119
+      ],
+      "accounts": [
+        {
+          "name": "proposal",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  111,
+                  112,
+                  111,
+                  115,
+                  97,
+                  108
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "proposal.proposal_id",
+                "account": "GovernanceProposal"
+              }
+            ]
+          }
+        },
+        {
+          "name": "vote_record",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  111,
+                  116,
+                  101,
+                  95,
+                  114,
+                  101,
+                  99,
+                  111,
+                  114,
+                  100
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "proposal"
+              },
+              {
+                "kind": "account",
+                "path": "voter"
+              }
+            ]
+          }
+        },
+        {
+          "name": "voter",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "voter_stake",
+          "docs": [
+            "Token account representing voter's stake"
+          ]
+        },
+        {
+          "name": "global_state"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "clock",
+          "address": "SysvarC1ock11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "vote",
+          "type": {
+            "defined": {
+              "name": "Vote"
+            }
+          }
+        },
+        {
+          "name": "voting_power",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "withdraw_proceeds",
+      "docs": [
+        "3. Withdraw Proceeds: Seller claims their earnings.",
+        "This instruction calculates the fee, sends it to the vault, and sends the net proceeds to the seller."
+      ],
+      "discriminator": [
+        124,
+        68,
+        215,
+        12,
+        201,
+        136,
+        54,
+        72
+      ],
+      "accounts": [
+        {
+          "name": "global_state"
+        },
+        {
+          "name": "timeslot",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  105,
+                  109,
+                  101,
+                  115,
+                  108,
+                  111,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot.epoch_ts",
+                "account": "Timeslot"
+              }
+            ]
+          }
+        },
+        {
+          "name": "supply",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  115,
+                  117,
+                  112,
+                  112,
+                  108,
+                  121
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot"
+              },
+              {
+                "kind": "account",
+                "path": "seller"
+              }
+            ]
+          }
+        },
+        {
+          "name": "timeslot_quote_escrow",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  113,
+                  117,
+                  111,
+                  116,
+                  101,
+                  95,
+                  101,
+                  115,
+                  99,
+                  114,
+                  111,
+                  119
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot"
+              }
+            ]
+          }
+        },
+        {
+          "name": "fee_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  102,
+                  101,
+                  101,
+                  95,
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "seller_proceeds_ata",
+          "writable": true
+        },
+        {
+          "name": "seller",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "withdraw_proceeds_v2",
+      "discriminator": [
+        240,
+        85,
+        198,
+        113,
+        97,
+        46,
+        170,
+        131
+      ],
+      "accounts": [
+        {
+          "name": "global_state"
+        },
+        {
+          "name": "timeslot",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  105,
+                  109,
+                  101,
+                  115,
+                  108,
+                  111,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot.epoch_ts",
+                "account": "Timeslot"
+              }
+            ]
+          }
+        },
+        {
+          "name": "seller_allocation",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  115,
+                  101,
+                  108,
+                  108,
+                  101,
+                  114,
+                  95,
+                  97,
+                  108,
+                  108,
+                  111,
+                  99,
+                  97,
+                  116,
+                  105,
+                  111,
+                  110
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot"
+              },
+              {
+                "kind": "account",
+                "path": "seller"
+              }
+            ]
+          }
+        },
+        {
+          "name": "timeslot_quote_escrow",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  113,
+                  117,
+                  111,
+                  116,
+                  101,
+                  95,
+                  101,
+                  115,
+                  99,
+                  114,
+                  111,
+                  119
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "timeslot"
+              }
+            ]
+          }
+        },
+        {
+          "name": "fee_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  102,
+                  101,
+                  101,
+                  95,
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "seller_proceeds_ata",
+          "writable": true
+        },
+        {
+          "name": "seller",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "AllocationTracker",
+      "discriminator": [
+        135,
+        193,
+        135,
+        1,
+        212,
+        107,
+        152,
+        187
+      ]
+    },
+    {
+      "name": "AuctionState",
+      "discriminator": [
+        252,
+        227,
+        205,
+        147,
+        72,
+        64,
+        250,
+        126
+      ]
+    },
+    {
+      "name": "BidPage",
+      "discriminator": [
+        158,
+        173,
+        229,
+        198,
+        84,
+        158,
+        181,
+        44
+      ]
+    },
+    {
+      "name": "BidRegistry",
+      "discriminator": [
+        221,
+        229,
+        225,
+        182,
+        190,
+        33,
+        201,
+        197
+      ]
+    },
+    {
+      "name": "BuyerAllocation",
+      "discriminator": [
+        148,
+        89,
+        196,
+        215,
+        127,
+        26,
+        55,
+        249
+      ]
+    },
+    {
+      "name": "CancellationState",
+      "discriminator": [
+        108,
+        114,
+        178,
+        47,
+        128,
+        234,
+        94,
+        174
+      ]
+    },
+    {
+      "name": "EmergencyState",
+      "discriminator": [
+        180,
+        65,
+        56,
+        35,
+        62,
+        185,
+        148,
+        179
+      ]
+    },
+    {
+      "name": "FillReceipt",
+      "discriminator": [
+        8,
+        10,
+        169,
+        84,
+        163,
+        19,
+        167,
+        139
+      ]
+    },
+    {
+      "name": "GlobalState",
+      "discriminator": [
+        163,
+        46,
+        74,
+        168,
+        216,
+        123,
+        133,
+        98
+      ]
+    },
+    {
+      "name": "GovernanceProposal",
+      "discriminator": [
+        53,
+        107,
+        240,
+        190,
+        43,
+        73,
+        65,
+        143
+      ]
+    },
+    {
+      "name": "PriceLevelAggregate",
+      "discriminator": [
+        153,
+        95,
+        194,
+        114,
+        77,
+        98,
+        140,
+        149
+      ]
+    },
+    {
+      "name": "SellerAllocation",
+      "discriminator": [
+        131,
+        110,
+        254,
+        106,
+        98,
+        207,
+        114,
+        19
+      ]
+    },
+    {
+      "name": "SellerRegistry",
+      "discriminator": [
+        124,
+        54,
+        41,
+        237,
+        146,
+        167,
+        132,
+        60
+      ]
+    },
+    {
+      "name": "SlashingState",
+      "discriminator": [
+        221,
+        142,
+        163,
+        11,
+        226,
+        102,
+        243,
+        67
+      ]
+    },
+    {
+      "name": "Supply",
+      "discriminator": [
+        171,
+        89,
+        187,
+        81,
+        56,
+        72,
+        108,
+        218
+      ]
+    },
+    {
+      "name": "Timeslot",
+      "discriminator": [
+        38,
+        119,
+        100,
+        134,
+        8,
+        113,
+        71,
+        156
+      ]
+    },
+    {
+      "name": "VoteRecord",
+      "discriminator": [
+        112,
+        9,
+        123,
+        165,
+        234,
+        9,
+        157,
+        167
+      ]
+    }
+  ],
+  "events": [
+    {
+      "name": "AuctionCancelled",
+      "discriminator": [
+        22,
+        32,
+        51,
+        83,
+        215,
+        194,
+        171,
+        209
+      ]
+    },
+    {
+      "name": "AuctionCleared",
+      "discriminator": [
+        14,
+        162,
+        105,
+        210,
+        219,
+        36,
+        142,
+        160
+      ]
+    },
+    {
+      "name": "AuctionRolledBack",
+      "discriminator": [
+        172,
+        32,
+        97,
+        169,
+        57,
+        129,
+        221,
+        198
+      ]
+    },
+    {
+      "name": "AuctionVerified",
+      "discriminator": [
+        218,
+        146,
+        254,
+        79,
+        30,
+        12,
+        140,
+        252
+      ]
+    },
+    {
+      "name": "AutoSlashingTriggered",
+      "discriminator": [
+        50,
+        247,
+        97,
+        31,
+        58,
+        235,
+        164,
+        123
+      ]
+    },
+    {
+      "name": "BidBatchProcessed",
+      "discriminator": [
+        126,
+        71,
+        31,
+        67,
+        186,
+        45,
+        217,
+        201
+      ]
+    },
+    {
+      "name": "BidOutcomeCreated",
+      "discriminator": [
+        140,
+        20,
+        73,
+        131,
+        160,
+        218,
+        64,
+        143
+      ]
+    },
+    {
+      "name": "BuyersRefunded",
+      "discriminator": [
+        238,
+        216,
+        242,
+        93,
+        191,
+        109,
+        102,
+        234
+      ]
+    },
+    {
+      "name": "CircuitBreakerTriggered",
+      "discriminator": [
+        58,
+        7,
+        35,
+        109,
+        165,
+        114,
+        119,
+        58
+      ]
+    },
+    {
+      "name": "DeliveryVerified",
+      "discriminator": [
+        241,
+        142,
+        183,
+        123,
+        105,
+        238,
+        231,
+        132
+      ]
+    },
+    {
+      "name": "EmergencyPaused",
+      "discriminator": [
+        97,
+        135,
+        220,
+        149,
+        143,
+        72,
+        9,
+        27
+      ]
+    },
+    {
+      "name": "EmergencyResumed",
+      "discriminator": [
+        36,
+        176,
+        144,
+        117,
+        139,
+        3,
+        190,
+        227
+      ]
+    },
+    {
+      "name": "EmergencyWithdrawal",
+      "discriminator": [
+        225,
+        77,
+        96,
+        117,
+        149,
+        211,
+        83,
+        71
+      ]
+    },
+    {
+      "name": "EnergyRedeemed",
+      "discriminator": [
+        149,
+        116,
+        160,
+        163,
+        245,
+        163,
+        24,
+        139
+      ]
+    },
+    {
+      "name": "NonDeliveryReported",
+      "discriminator": [
+        101,
+        8,
+        15,
+        131,
+        216,
+        163,
+        253,
+        215
+      ]
+    },
+    {
+      "name": "ProposalCreated",
+      "discriminator": [
+        186,
+        8,
+        160,
+        108,
+        81,
+        13,
+        51,
+        206
+      ]
+    },
+    {
+      "name": "ProposalExecuted",
+      "discriminator": [
+        92,
+        213,
+        189,
+        201,
+        101,
+        83,
+        111,
+        83
+      ]
+    },
+    {
+      "name": "ProposalPassed",
+      "discriminator": [
+        220,
+        78,
+        169,
+        5,
+        10,
+        162,
+        76,
+        114
+      ]
+    },
+    {
+      "name": "SellerAllocationNeeded",
+      "discriminator": [
+        156,
+        190,
+        189,
+        23,
+        86,
+        159,
+        241,
+        202
+      ]
+    },
+    {
+      "name": "SellersRefunded",
+      "discriminator": [
+        93,
+        208,
+        179,
+        35,
+        8,
+        101,
+        5,
+        63
+      ]
+    },
+    {
+      "name": "SlashingAppealRejected",
+      "discriminator": [
+        192,
+        180,
+        19,
+        61,
+        201,
+        178,
+        152,
+        6
+      ]
+    },
+    {
+      "name": "SlashingAppealUpheld",
+      "discriminator": [
+        46,
+        168,
+        117,
+        187,
+        255,
+        72,
+        60,
+        171
+      ]
+    },
+    {
+      "name": "SlashingAppealed",
+      "discriminator": [
+        40,
+        35,
+        123,
+        102,
+        1,
+        153,
+        139,
+        77
+      ]
+    },
+    {
+      "name": "SlashingExecuted",
+      "discriminator": [
+        61,
+        246,
+        49,
+        117,
+        235,
+        117,
+        73,
+        89
+      ]
+    },
+    {
+      "name": "SupplyBatchProcessed",
+      "discriminator": [
+        145,
+        122,
+        95,
+        234,
+        36,
+        90,
+        7,
+        34
+      ]
+    },
+    {
+      "name": "SupplyCommitted",
+      "discriminator": [
+        12,
+        9,
+        183,
+        239,
+        147,
+        121,
+        161,
+        140
+      ]
+    },
+    {
+      "name": "VoteCast",
+      "discriminator": [
+        39,
+        53,
+        195,
+        104,
+        188,
+        17,
+        225,
+        213
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidAuthority",
+      "msg": "Invalid authority for this operation"
+    },
+    {
+      "code": 6001,
+      "name": "DuplicateSupply",
+      "msg": "Supply already committed for this seller and timeslot"
+    },
+    {
+      "code": 6002,
+      "name": "InvalidTimeslot",
+      "msg": "Timeslot is not in the correct state for this operation"
+    },
+    {
+      "code": 6003,
+      "name": "InsufficientBalance",
+      "msg": "Insufficient token balance to commit supply"
+    },
+    {
+      "code": 6004,
+      "name": "MathError",
+      "msg": "Math overflow/underflow error"
+    },
+    {
+      "code": 6005,
+      "name": "InvalidEscrowVault",
+      "msg": "Invalid escrow vault account"
+    },
+    {
+      "code": 6006,
+      "name": "Unauthorized",
+      "msg": "Unauthorized signer for this transaction"
+    },
+    {
+      "code": 6007,
+      "name": "InvalidGlobalState",
+      "msg": "Invalid global state account provided"
+    },
+    {
+      "code": 6008,
+      "name": "ConstraintViolation",
+      "msg": "Account constraint violated"
+    },
+    {
+      "code": 6009,
+      "name": "AlreadyClaimed",
+      "msg": "Proceeds or refund have already been claimed"
+    },
+    {
+      "code": 6010,
+      "name": "ReservePriceNotMet",
+      "msg": "Seller's reserve price not met by clearing price"
+    },
+    {
+      "code": 6011,
+      "name": "AllocationExhausted",
+      "msg": "No more quantity available for allocation"
+    },
+    {
+      "code": 6012,
+      "name": "InvalidMeritOrder",
+      "msg": "Suppliers must be processed in merit order by reserve price"
+    },
+    {
+      "code": 6013,
+      "name": "NoMarketClearing",
+      "msg": "No market clearing possible - all reserve prices exceed highest bid"
+    },
+    {
+      "code": 6014,
+      "name": "ComputationLimitExceeded",
+      "msg": "Auction clearing computation limit exceeded"
+    },
+    {
+      "code": 6015,
+      "name": "AuctionInProgress",
+      "msg": "Auction already in progress"
+    },
+    {
+      "code": 6016,
+      "name": "AuctionClearingFailed",
+      "msg": "Auction clearing failed"
+    },
+    {
+      "code": 6017,
+      "name": "InvalidBidPageSequence",
+      "msg": "Invalid bid page sequence"
+    },
+    {
+      "code": 6018,
+      "name": "InsufficientDemand",
+      "msg": "Insufficient demand for clearing"
+    },
+    {
+      "code": 6019,
+      "name": "InsufficientSupply",
+      "msg": "Insufficient supply for clearing"
+    },
+    {
+      "code": 6020,
+      "name": "SettlementVerificationFailed",
+      "msg": "Settlement verification failed"
+    },
+    {
+      "code": 6021,
+      "name": "EscrowMismatch",
+      "msg": "Escrow balance mismatch"
+    },
+    {
+      "code": 6022,
+      "name": "PrecisionError",
+      "msg": "Precision error in quantity allocation"
+    },
+    {
+      "code": 6023,
+      "name": "BatchProcessingError",
+      "msg": "Batch processing error"
+    },
+    {
+      "code": 6024,
+      "name": "InvalidSupplierKeys",
+      "msg": "Invalid supplier keys provided"
+    },
+    {
+      "code": 6025,
+      "name": "NoIntersection",
+      "msg": "No intersection found between supply and demand"
+    },
+    {
+      "code": 6026,
+      "name": "InsufficientAccountSpace",
+      "msg": "Insufficient account space for allocation"
+    },
+    {
+      "code": 6027,
+      "name": "MissingSellerAllocationAccount",
+      "msg": "Missing seller allocation account"
+    },
+    {
+      "code": 6028,
+      "name": "CancellationInProgress",
+      "msg": "Auction cancellation in progress"
+    },
+    {
+      "code": 6029,
+      "name": "DeliveryVerificationFailed",
+      "msg": "Delivery verification failed"
+    },
+    {
+      "code": 6030,
+      "name": "SlashingAppealExpired",
+      "msg": "Slashing appeal period expired"
+    },
+    {
+      "code": 6031,
+      "name": "EmergencyPauseActive",
+      "msg": "Emergency pause is active"
+    },
+    {
+      "code": 6032,
+      "name": "ProposalVotingExpired",
+      "msg": "Proposal voting period expired"
+    },
+    {
+      "code": 6033,
+      "name": "InsufficientVotingPower",
+      "msg": "Insufficient voting power"
+    },
+    {
+      "code": 6034,
+      "name": "ParameterOutOfBounds",
+      "msg": "Parameter value out of bounds"
+    },
+    {
+      "code": 6035,
+      "name": "EmergencyPauseRequired",
+      "msg": "Emergency pause required for this operation"
+    },
+    {
+      "code": 6036,
+      "name": "InsufficientUpgradeAccounts",
+      "msg": "Insufficient upgrade accounts provided"
+    },
+    {
+      "code": 6037,
+      "name": "InsufficientStake",
+      "msg": "Insufficient stake for this operation"
+    },
+    {
+      "code": 6038,
+      "name": "ProposalNotPassed",
+      "msg": "Proposal has not passed"
+    },
+    {
+      "code": 6039,
+      "name": "TimelockNotExpired",
+      "msg": "Timelock period has not expired"
+    },
+    {
+      "code": 6040,
+      "name": "InsufficientSignatures",
+      "msg": "Insufficient signatures for execution"
+    },
+    {
+      "code": 6041,
+      "name": "InsufficientTimeElapsed",
+      "msg": "Insufficient time elapsed for this operation"
+    },
+    {
+      "code": 6042,
+      "name": "DeliveryWindowExpired",
+      "msg": "Delivery window has expired"
+    },
+    {
+      "code": 6043,
+      "name": "UnauthorizedOracle",
+      "msg": "Unauthorized oracle"
+    },
+    {
+      "code": 6044,
+      "name": "VotingPeriodExpired",
+      "msg": "Voting period has expired"
+    },
+    {
+      "code": 6045,
+      "name": "InvalidDeliveryReport",
+      "msg": "Invalid delivery report data"
+    },
+    {
+      "code": 6046,
+      "name": "InvalidOracleSignature",
+      "msg": "Invalid oracle signature"
+    }
+  ],
+  "types": [
+    {
+      "name": "AllocationTracker",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "timeslot",
+            "type": "pubkey"
+          },
+          {
+            "name": "remaining_quantity",
+            "type": "u64"
+          },
+          {
+            "name": "total_allocated",
+            "type": "u64"
+          },
+          {
+            "name": "last_processed_reserve_price",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AppealDecision",
+      "docs": [
+        "Appeal decision options"
+      ],
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Upheld"
+          },
+          {
+            "name": "Rejected"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AuctionCancelled",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "timeslot",
+            "type": "pubkey"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AuctionCleared",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "timeslot",
+            "type": "pubkey"
+          },
+          {
+            "name": "clearing_price",
+            "type": "u64"
+          },
+          {
+            "name": "cleared_quantity",
+            "type": "u64"
+          },
+          {
+            "name": "total_revenue",
+            "type": "u64"
+          },
+          {
+            "name": "winning_bids_count",
+            "type": "u32"
+          },
+          {
+            "name": "participating_sellers_count",
+            "type": "u32"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AuctionRolledBack",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "timeslot",
+            "type": "pubkey"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AuctionState",
+      "docs": [
+        "Tracks the state of an auction during and after clearing"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "timeslot",
+            "type": "pubkey"
+          },
+          {
+            "name": "clearing_price",
+            "type": "u64"
+          },
+          {
+            "name": "total_cleared_quantity",
+            "type": "u64"
+          },
+          {
+            "name": "total_revenue",
+            "type": "u64"
+          },
+          {
+            "name": "winning_bids_count",
+            "type": "u32"
+          },
+          {
+            "name": "participating_sellers_count",
+            "type": "u32"
+          },
+          {
+            "name": "status",
+            "type": "u8"
+          },
+          {
+            "name": "clearing_timestamp",
+            "type": "i64"
+          },
+          {
+            "name": "highest_price",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AuctionVerified",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "timeslot",
+            "type": "pubkey"
+          },
+          {
+            "name": "clearing_price",
+            "type": "u64"
+          },
+          {
+            "name": "cleared_quantity",
+            "type": "u64"
+          },
+          {
+            "name": "total_revenue",
+            "type": "u64"
+          },
+          {
+            "name": "winning_bids_count",
+            "type": "u32"
+          },
+          {
+            "name": "participating_sellers_count",
+            "type": "u32"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          },
+          {
+            "name": "total_buyer_payments",
+            "type": "u64"
+          },
+          {
+            "name": "total_seller_proceeds",
+            "type": "u64"
+          },
+          {
+            "name": "protocol_fees",
+            "type": "u64"
+          },
+          {
+            "name": "total_energy_distributed",
+            "type": "u64"
+          },
+          {
+            "name": "total_energy_committed",
+            "type": "u64"
+          },
+          {
+            "name": "total_refunds",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AutoSlashingTriggered",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "supplier",
+            "type": "pubkey"
+          },
+          {
+            "name": "timeslot",
+            "type": "pubkey"
+          },
+          {
+            "name": "shortfall_quantity",
+            "type": "u64"
+          },
+          {
+            "name": "penalty_amount",
+            "type": "u64"
+          },
+          {
+            "name": "slashing_amount",
+            "type": "u64"
+          },
+          {
+            "name": "appeal_deadline",
+            "type": "i64"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "BatchResult",
+      "docs": [
+        "Batch processing result for bids"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "processed_bids",
+            "type": "u32"
+          },
+          {
+            "name": "total_quantity",
+            "type": "u64"
+          },
+          {
+            "name": "highest_price",
+            "type": "u64"
+          },
+          {
+            "name": "lowest_price",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Bid",
+      "docs": [
+        "A single bid entry"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "owner",
+            "type": "pubkey"
+          },
+          {
+            "name": "price",
+            "type": "u64"
+          },
+          {
+            "name": "quantity",
+            "type": "u64"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          },
+          {
+            "name": "status",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "BidBatchProcessed",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "timeslot",
+            "type": "pubkey"
+          },
+          {
+            "name": "start_page",
+            "type": "u32"
+          },
+          {
+            "name": "end_page",
+            "type": "u32"
+          },
+          {
+            "name": "processed_bids",
+            "type": "u32"
+          },
+          {
+            "name": "total_quantity",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "BidOutcomeCreated",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "buyer",
+            "type": "pubkey"
+          },
+          {
+            "name": "timeslot",
+            "type": "pubkey"
+          },
+          {
+            "name": "filled_quantity",
+            "type": "u64"
+          },
+          {
+            "name": "clearing_price",
+            "type": "u64"
+          },
+          {
+            "name": "refund_amount",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "BidPage",
+      "docs": [
+        "Page of bids (linked list)"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "timeslot",
+            "type": "pubkey"
+          },
+          {
+            "name": "bids",
+            "type": {
+              "vec": {
+                "defined": {
+                  "name": "Bid"
+                }
+              }
+            }
+          },
+          {
+            "name": "next_page",
+            "type": {
+              "option": "pubkey"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "BidRegistry",
+      "docs": [
+        "Registry to track all bid pages for efficient lookup"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "timeslot",
+            "type": "pubkey"
+          },
+          {
+            "name": "bid_pages",
+            "type": {
+              "vec": "pubkey"
+            }
+          },
+          {
+            "name": "total_pages",
+            "type": "u32"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "BuyerAllocation",
+      "docs": [
+        "Buyer allocation tracking multi-seller energy distribution"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "buyer",
+            "type": "pubkey"
+          },
+          {
+            "name": "timeslot",
+            "type": "pubkey"
+          },
+          {
+            "name": "total_quantity_won",
+            "type": "u64"
+          },
+          {
+            "name": "clearing_price",
+            "type": "u64"
+          },
+          {
+            "name": "total_cost",
+            "type": "u64"
+          },
+          {
+            "name": "refund_amount",
+            "type": "u64"
+          },
+          {
+            "name": "total_escrowed",
+            "type": "u64"
+          },
+          {
+            "name": "energy_sources",
+            "type": {
+              "vec": {
+                "defined": {
+                  "name": "EnergySource"
+                }
+              }
+            }
+          },
+          {
+            "name": "redeemed",
+            "type": "bool"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "BuyersRefunded",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "timeslot",
+            "type": "pubkey"
+          },
+          {
+            "name": "refunded_buyers",
+            "type": "u32"
+          },
+          {
+            "name": "total_refunded",
+            "type": "u64"
+          },
+          {
+            "name": "start_page",
+            "type": "u32"
+          },
+          {
+            "name": "end_page",
+            "type": "u32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CancellationState",
+      "docs": [
+        "Tracks cancellation refund progress"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "timeslot",
+            "type": "pubkey"
+          },
+          {
+            "name": "status",
+            "type": "u8"
+          },
+          {
+            "name": "total_buyers_refunded",
+            "type": "u32"
+          },
+          {
+            "name": "total_sellers_refunded",
+            "type": "u32"
+          },
+          {
+            "name": "total_quote_refunded",
+            "type": "u64"
+          },
+          {
+            "name": "total_energy_refunded",
+            "type": "u64"
+          },
+          {
+            "name": "cancellation_timestamp",
+            "type": "i64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CircuitBreakerTriggered",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "trigger_reason",
+            "type": {
+              "defined": {
+                "name": "SystemStatus"
+              }
+            }
+          },
+          {
+            "name": "reason",
+            "type": "string"
+          },
+          {
+            "name": "anomaly_count",
+            "type": "u32"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          },
+          {
+            "name": "authority",
+            "type": "pubkey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "DeliveryReport",
+      "docs": [
+        "Delivery report from oracle"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "supplier",
+            "type": "pubkey"
+          },
+          {
+            "name": "timeslot",
+            "type": "pubkey"
+          },
+          {
+            "name": "allocated_quantity",
+            "type": "u64"
+          },
+          {
+            "name": "delivered_quantity",
+            "type": "u64"
+          },
+          {
+            "name": "evidence_hash",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          },
+          {
+            "name": "oracle_signature",
+            "type": {
+              "array": [
+                "u8",
+                64
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "DeliveryVerified",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "supplier",
+            "type": "pubkey"
+          },
+          {
+            "name": "timeslot",
+            "type": "pubkey"
+          },
+          {
+            "name": "allocated_quantity",
+            "type": "u64"
+          },
+          {
+            "name": "delivered_quantity",
+            "type": "u64"
+          },
+          {
+            "name": "oracle",
+            "type": "pubkey"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "EmergencyPaused",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "timestamp",
+            "type": "i64"
+          },
+          {
+            "name": "reason",
+            "type": {
+              "array": [
+                "u8",
+                64
+              ]
+            }
+          },
+          {
+            "name": "authority",
+            "type": "pubkey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "EmergencyResumed",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "timestamp",
+            "type": "i64"
+          },
+          {
+            "name": "pause_duration",
+            "type": "i64"
+          },
+          {
+            "name": "authority",
+            "type": "pubkey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "EmergencyState",
+      "docs": [
+        "Emergency pause state"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "is_paused",
+            "type": "bool"
+          },
+          {
+            "name": "pause_timestamp",
+            "type": "i64"
+          },
+          {
+            "name": "pause_reason",
+            "type": {
+              "array": [
+                "u8",
+                64
+              ]
+            }
+          },
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "EmergencyWithdrawal",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "withdrawal_type",
+            "type": {
+              "defined": {
+                "name": "EmergencyWithdrawalType"
+              }
+            }
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "recipient",
+            "type": "pubkey"
+          },
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "source_account",
+            "type": "pubkey"
+          },
+          {
+            "name": "destination_account",
+            "type": "pubkey"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "EmergencyWithdrawalType",
+      "docs": [
+        "Emergency withdrawal types"
+      ],
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "CancelledAuction"
+          },
+          {
+            "name": "StuckFunds"
+          },
+          {
+            "name": "ProtocolUpgrade"
+          }
+        ]
+      }
+    },
+    {
+      "name": "EnergyRedeemed",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "buyer",
+            "type": "pubkey"
+          },
+          {
+            "name": "timeslot",
+            "type": "pubkey"
+          },
+          {
+            "name": "total_quantity",
+            "type": "u64"
+          },
+          {
+            "name": "total_cost",
+            "type": "u64"
+          },
+          {
+            "name": "refund_amount",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "EnergySource",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "seller",
+            "type": "pubkey"
+          },
+          {
+            "name": "quantity",
+            "type": "u64"
+          },
+          {
+            "name": "escrow_account",
+            "type": "pubkey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "FillReceipt",
+      "docs": [
+        "Receipt created for each winning buyer after settlement"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "buyer",
+            "type": "pubkey"
+          },
+          {
+            "name": "timeslot",
+            "type": "pubkey"
+          },
+          {
+            "name": "quantity",
+            "type": "u64"
+          },
+          {
+            "name": "clearing_price",
+            "type": "u64"
+          },
+          {
+            "name": "redeemed",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "GlobalState",
+      "docs": [
+        "Global protocol config"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "fee_bps",
+            "type": "u16"
+          },
+          {
+            "name": "version",
+            "type": "u8"
+          },
+          {
+            "name": "max_batch_size",
+            "type": "u16"
+          },
+          {
+            "name": "max_sellers_per_timeslot",
+            "type": "u16"
+          },
+          {
+            "name": "max_bids_per_page",
+            "type": "u16"
+          },
+          {
+            "name": "slashing_penalty_bps",
+            "type": "u16"
+          },
+          {
+            "name": "appeal_window_seconds",
+            "type": "u32"
+          },
+          {
+            "name": "delivery_window_duration",
+            "type": "u32"
+          },
+          {
+            "name": "min_proposal_stake",
+            "type": "u64"
+          },
+          {
+            "name": "min_voting_stake",
+            "type": "u64"
+          },
+          {
+            "name": "governance_council",
+            "type": {
+              "vec": "pubkey"
+            }
+          },
+          {
+            "name": "council_vote_multiplier",
+            "type": "u16"
+          },
+          {
+            "name": "min_participation_threshold",
+            "type": "u64"
+          },
+          {
+            "name": "authorized_oracles",
+            "type": {
+              "vec": "pubkey"
+            }
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "quote_mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "fee_vault",
+            "type": "pubkey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "GovernanceProposal",
+      "docs": [
+        "Governance proposal for parameter changes"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "proposal_id",
+            "type": "u64"
+          },
+          {
+            "name": "proposer",
+            "type": "pubkey"
+          },
+          {
+            "name": "proposal_type",
+            "type": {
+              "defined": {
+                "name": "ProposalType"
+              }
+            }
+          },
+          {
+            "name": "new_value",
+            "type": "u64"
+          },
+          {
+            "name": "description",
+            "type": {
+              "array": [
+                "u8",
+                128
+              ]
+            }
+          },
+          {
+            "name": "created_at",
+            "type": "i64"
+          },
+          {
+            "name": "voting_deadline",
+            "type": "i64"
+          },
+          {
+            "name": "votes_for",
+            "type": "u64"
+          },
+          {
+            "name": "votes_against",
+            "type": "u64"
+          },
+          {
+            "name": "total_voting_power",
+            "type": "u64"
+          },
+          {
+            "name": "current_signatures",
+            "type": "u8"
+          },
+          {
+            "name": "required_signatures",
+            "type": "u8"
+          },
+          {
+            "name": "status",
+            "type": "u8"
+          },
+          {
+            "name": "execution_timestamp",
+            "type": "i64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "NonDeliveryReported",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "supplier",
+            "type": "pubkey"
+          },
+          {
+            "name": "timeslot",
+            "type": "pubkey"
+          },
+          {
+            "name": "allocated_quantity",
+            "type": "u64"
+          },
+          {
+            "name": "delivered_quantity",
+            "type": "u64"
+          },
+          {
+            "name": "slashing_amount",
+            "type": "u64"
+          },
+          {
+            "name": "appeal_deadline",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PriceLevelAggregate",
+      "docs": [
+        "Aggregates bids at the same price level for efficient demand curve construction"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "timeslot",
+            "type": "pubkey"
+          },
+          {
+            "name": "price",
+            "type": "u64"
+          },
+          {
+            "name": "total_quantity",
+            "type": "u64"
+          },
+          {
+            "name": "bid_count",
+            "type": "u16"
+          },
+          {
+            "name": "cumulative_quantity",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ProposalCreated",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "proposal_id",
+            "type": "pubkey"
+          },
+          {
+            "name": "proposer",
+            "type": "pubkey"
+          },
+          {
+            "name": "proposal_type",
+            "type": {
+              "defined": {
+                "name": "ProposalType"
+              }
+            }
+          },
+          {
+            "name": "new_value",
+            "type": "u64"
+          },
+          {
+            "name": "voting_deadline",
+            "type": "i64"
+          },
+          {
+            "name": "required_signatures",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ProposalExecuted",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "proposal_id",
+            "type": "pubkey"
+          },
+          {
+            "name": "proposal_type",
+            "type": {
+              "defined": {
+                "name": "ProposalType"
+              }
+            }
+          },
+          {
+            "name": "new_value",
+            "type": "u64"
+          },
+          {
+            "name": "execution_timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ProposalPassed",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "proposal_id",
+            "type": "pubkey"
+          },
+          {
+            "name": "proposal_type",
+            "type": {
+              "defined": {
+                "name": "ProposalType"
+              }
+            }
+          },
+          {
+            "name": "final_vote_count",
+            "type": "u64"
+          },
+          {
+            "name": "votes_for",
+            "type": "u64"
+          },
+          {
+            "name": "votes_against",
+            "type": "u64"
+          },
+          {
+            "name": "signatures",
+            "type": "u8"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ProposalType",
+      "docs": [
+        "Types of governance proposals"
+      ],
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "FeeBps"
+          },
+          {
+            "name": "Version"
+          },
+          {
+            "name": "MaxBatchSize"
+          },
+          {
+            "name": "MaxSellersPerTimeslot"
+          },
+          {
+            "name": "MaxBidsPerPage"
+          },
+          {
+            "name": "SlashingPenaltyBps"
+          },
+          {
+            "name": "AppealWindowSeconds"
+          },
+          {
+            "name": "DeliveryWindowDuration"
+          },
+          {
+            "name": "MinProposalStake"
+          },
+          {
+            "name": "MinVotingStake"
+          },
+          {
+            "name": "EmergencyParameterChange"
+          },
+          {
+            "name": "ProtocolUpgrade"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RefundBatchResult",
+      "docs": [
+        "Refund batch processing result"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "refunded_count",
+            "type": "u32"
+          },
+          {
+            "name": "total_amount",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SellerAllocation",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "supplier",
+            "type": "pubkey"
+          },
+          {
+            "name": "timeslot",
+            "type": "pubkey"
+          },
+          {
+            "name": "allocated_quantity",
+            "type": "u64"
+          },
+          {
+            "name": "allocation_price",
+            "type": "u64"
+          },
+          {
+            "name": "proceeds_withdrawn",
+            "type": "bool"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SellerAllocationNeeded",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "timeslot",
+            "type": "pubkey"
+          },
+          {
+            "name": "supplier",
+            "type": "pubkey"
+          },
+          {
+            "name": "allocated_quantity",
+            "type": "u64"
+          },
+          {
+            "name": "allocation_price",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SellerRegistry",
+      "docs": [
+        "Registry to track all sellers for a timeslot"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "timeslot",
+            "type": "pubkey"
+          },
+          {
+            "name": "sellers",
+            "type": {
+              "vec": "pubkey"
+            }
+          },
+          {
+            "name": "seller_count",
+            "type": "u32"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SellersRefunded",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "timeslot",
+            "type": "pubkey"
+          },
+          {
+            "name": "refunded_sellers",
+            "type": "u32"
+          },
+          {
+            "name": "total_refunded",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SlashingAppealRejected",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "supplier",
+            "type": "pubkey"
+          },
+          {
+            "name": "timeslot",
+            "type": "pubkey"
+          },
+          {
+            "name": "penalty_confirmed",
+            "type": "u64"
+          },
+          {
+            "name": "final_penalty",
+            "type": "u64"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SlashingAppealUpheld",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "supplier",
+            "type": "pubkey"
+          },
+          {
+            "name": "timeslot",
+            "type": "pubkey"
+          },
+          {
+            "name": "refund_amount",
+            "type": "u64"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SlashingAppealed",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "supplier",
+            "type": "pubkey"
+          },
+          {
+            "name": "timeslot",
+            "type": "pubkey"
+          },
+          {
+            "name": "appeal_evidence",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SlashingExecuted",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "supplier",
+            "type": "pubkey"
+          },
+          {
+            "name": "timeslot",
+            "type": "pubkey"
+          },
+          {
+            "name": "slashing_amount",
+            "type": "u64"
+          },
+          {
+            "name": "shortfall_quantity",
+            "type": "u64"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SlashingState",
+      "docs": [
+        "Slashing state for delivery verification"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "supplier",
+            "type": "pubkey"
+          },
+          {
+            "name": "timeslot",
+            "type": "pubkey"
+          },
+          {
+            "name": "allocated_quantity",
+            "type": "u64"
+          },
+          {
+            "name": "delivered_quantity",
+            "type": "u64"
+          },
+          {
+            "name": "slashing_amount",
+            "type": "u64"
+          },
+          {
+            "name": "status",
+            "type": "u8"
+          },
+          {
+            "name": "report_timestamp",
+            "type": "i64"
+          },
+          {
+            "name": "appeal_deadline",
+            "type": "i64"
+          },
+          {
+            "name": "execution_timestamp",
+            "type": "i64"
+          },
+          {
+            "name": "resolution_timestamp",
+            "type": "i64"
+          },
+          {
+            "name": "evidence_hash",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "resolution_evidence",
+            "type": {
+              "array": [
+                "u8",
+                64
+              ]
+            }
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Supply",
+      "docs": [
+        "Minimal Supply struct for MVP (one-time immutable per timeslot)"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "supplier",
+            "type": "pubkey"
+          },
+          {
+            "name": "timeslot",
+            "type": "pubkey"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "reserve_price",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "energy_mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "escrow_vault",
+            "type": "pubkey"
+          },
+          {
+            "name": "claimed",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SupplyAllocationResult",
+      "docs": [
+        "Supply allocation result"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "processed_sellers",
+            "type": "u32"
+          },
+          {
+            "name": "total_allocated",
+            "type": "u64"
+          },
+          {
+            "name": "remaining_demand",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SupplyBatchProcessed",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "timeslot",
+            "type": "pubkey"
+          },
+          {
+            "name": "processed_sellers",
+            "type": "u32"
+          },
+          {
+            "name": "total_allocated",
+            "type": "u64"
+          },
+          {
+            "name": "remaining_demand",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SupplyCommitted",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "supplier",
+            "type": "pubkey"
+          },
+          {
+            "name": "timeslot",
+            "type": "u64"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SystemHealthReport",
+      "docs": [
+        "System health report"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "overall_status",
+            "type": {
+              "defined": {
+                "name": "SystemStatus"
+              }
+            }
+          },
+          {
+            "name": "active_auctions",
+            "type": "u32"
+          },
+          {
+            "name": "pending_settlements",
+            "type": "u32"
+          },
+          {
+            "name": "total_locked_value",
+            "type": "u64"
+          },
+          {
+            "name": "failed_deliveries",
+            "type": "u32"
+          },
+          {
+            "name": "emergency_pause_active",
+            "type": "bool"
+          },
+          {
+            "name": "emergency_paused",
+            "type": "bool"
+          },
+          {
+            "name": "last_check_timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SystemStatus",
+      "docs": [
+        "System health status"
+      ],
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Healthy"
+          },
+          {
+            "name": "Warning"
+          },
+          {
+            "name": "Critical"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Timeslot",
+      "docs": [
+        "Auction round container"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "epoch_ts",
+            "type": "i64"
+          },
+          {
+            "name": "status",
+            "type": "u8"
+          },
+          {
+            "name": "lot_size",
+            "type": "u64"
+          },
+          {
+            "name": "quote_mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "price_tick",
+            "type": "u64"
+          },
+          {
+            "name": "total_supply",
+            "type": "u64"
+          },
+          {
+            "name": "total_bids",
+            "type": "u64"
+          },
+          {
+            "name": "head_page",
+            "type": {
+              "option": "pubkey"
+            }
+          },
+          {
+            "name": "tail_page",
+            "type": {
+              "option": "pubkey"
+            }
+          },
+          {
+            "name": "clearing_price",
+            "type": "u64"
+          },
+          {
+            "name": "total_sold_quantity",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Vote",
+      "docs": [
+        "Vote options"
+      ],
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "For"
+          },
+          {
+            "name": "Against"
+          }
+        ]
+      }
+    },
+    {
+      "name": "VoteCast",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "proposal_id",
+            "type": "pubkey"
+          },
+          {
+            "name": "voter",
+            "type": "pubkey"
+          },
+          {
+            "name": "vote",
+            "type": {
+              "defined": {
+                "name": "Vote"
+              }
+            }
+          },
+          {
+            "name": "voting_power",
+            "type": "u64"
+          },
+          {
+            "name": "is_council_member",
+            "type": "bool"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "VoteRecord",
+      "docs": [
+        "Individual vote record"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "voter",
+            "type": "pubkey"
+          },
+          {
+            "name": "proposal",
+            "type": "pubkey"
+          },
+          {
+            "name": "vote",
+            "type": {
+              "defined": {
+                "name": "Vote"
+              }
+            }
+          },
+          {
+            "name": "voting_power",
+            "type": "u64"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          },
+          {
+            "name": "has_voted",
+            "type": "bool"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ]
+}

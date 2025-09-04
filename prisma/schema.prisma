@@ -1,0 +1,157 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Wallet-based user model
+model User {
+  id                String    @id @default(cuid())
+  walletAddress     String    @unique // Solana public key
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  lastLoginAt       DateTime?
+  
+  // Authentication tracking
+  nonces            AuthNonce[]
+  
+  // User activity
+  bids              Bid[]
+  supplies          Supply[]
+  transactions      Transaction[]
+  
+  @@map("users")
+  @@index([walletAddress])
+}
+
+// Authentication nonces for wallet signature verification
+model AuthNonce {
+  id            String    @id @default(cuid())
+  userId        String?
+  walletAddress String    // Public key attempting to authenticate
+  nonce         String    @unique // Random string to sign
+  expiresAt     DateTime  // Nonce expiration (5 minutes)
+  usedAt        DateTime? // When nonce was consumed
+  createdAt     DateTime  @default(now())
+  
+  user          User?     @relation(fields: [userId], references: [id])
+  
+  @@map("auth_nonces")
+  @@index([walletAddress])
+  @@index([nonce])
+  @@index([expiresAt])
+}
+
+enum TimeslotStatus {
+  OPEN
+  SEALED
+  SETTLED
+}
+
+model Timeslot {
+  id                String        @id @default(cuid())
+  startTime         DateTime
+  endTime           DateTime
+  status            TimeslotStatus @default(OPEN)
+  clearingPrice     Decimal?       @db.Decimal(10, 4)
+  totalEnergy       Decimal        @db.Decimal(10, 4)
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @updatedAt
+  
+  bids              Bid[]
+  supplies          Supply[]
+  transactions      Transaction[]
+  
+  @@map("timeslots")
+  @@index([startTime, endTime])
+  @@index([status])
+}
+
+enum BidStatus {
+  PENDING
+  CONFIRMED
+  MATCHED
+  CANCELLED
+  EXPIRED
+}
+
+model Bid {
+  id                String     @id @default(cuid())
+  userId            String
+  timeslotId        String
+  price             Decimal    @db.Decimal(10, 4)
+  quantity          Decimal    @db.Decimal(10, 4)
+  status            BidStatus  @default(PENDING)
+  txSignature       String?    // Solana transaction signature
+  escrowAccount     String?    // PDA for escrowed tokens
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+  
+  user              User       @relation(fields: [userId], references: [id])
+  timeslot          Timeslot   @relation(fields: [timeslotId], references: [id])
+  
+  @@map("bids")
+  @@index([userId])
+  @@index([timeslotId])
+  @@index([status])
+}
+
+enum SupplyStatus {
+  COMMITTED
+  CONFIRMED
+  ALLOCATED
+  DELIVERED
+  CANCELLED
+}
+
+model Supply {
+  id                String       @id @default(cuid())
+  userId            String
+  timeslotId        String
+  quantity          Decimal      @db.Decimal(10, 4)
+  reservePrice      Decimal      @db.Decimal(10, 4)
+  status            SupplyStatus @default(COMMITTED)
+  txSignature       String?      // Solana transaction signature
+  escrowAccount     String?      // PDA for escrowed energy tokens
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
+  
+  user              User         @relation(fields: [userId], references: [id])
+  timeslot          Timeslot     @relation(fields: [timeslotId], references: [id])
+  
+  @@map("supplies")
+  @@index([userId])
+  @@index([timeslotId])
+  @@index([status])
+}
+
+enum TransactionType {
+  BID_PLACED
+  SUPPLY_COMMITTED
+  BID_MATCHED
+  PAYMENT_SETTLED
+  ESCROW_RELEASED
+}
+
+model Transaction {
+  id                String          @id @default(cuid())
+  userId            String
+  timeslotId        String?
+  type              TransactionType
+  amount            Decimal         @db.Decimal(18, 9)
+  txSignature       String          @unique // Solana transaction signature
+  blockTime         DateTime?       // When transaction was confirmed on-chain
+  status            String          @default("pending") // pending, confirmed, failed
+  createdAt         DateTime        @default(now())
+  
+  user              User            @relation(fields: [userId], references: [id])
+  timeslot          Timeslot?       @relation(fields: [timeslotId], references: [id])
+  
+  @@map("transactions")
+  @@index([userId])
+  @@index([txSignature])
+  @@index([status])
+}
